@@ -1,27 +1,26 @@
-import express from 'express';
-import http from 'http';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import compression from 'compression';
-import cors, { CorsOptions } from 'cors';
-import connectDB from './db/connect';
-import dotenv from 'dotenv';
-import userRoute from './routes/users.routes'
+import express from "express";
+import http from "http";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import compression from "compression";
+import cors, { CorsOptions } from "cors";
+import connectDB from "./db/connect";
+import dotenv from "dotenv";
+import userRoute from "./routes/users.routes";
 dotenv.config();
 
 const app = express();
 
-
 // IMPLEMENT MIDDLEWARE
 const corsOptions: CorsOptions = {
-    credentials: true,
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use('/api/v1/', userRoute);
+app.use("/api/v1/", userRoute);
 
 const port = process.env.PORT || 3000;
 
