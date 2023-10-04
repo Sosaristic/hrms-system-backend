@@ -9,4 +9,3 @@ router.post("/forgot-password", forgotPassword);
 router.post("/logout", logout);
 
 export default router;
-§
