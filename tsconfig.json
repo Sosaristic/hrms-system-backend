@@ -1,12 +1,13 @@
 {
-    "compilerOptions": {
-        "module": "NodeNext",
-        "moduleResolution": "Node",
-        "baseUrl": "src",
-        "outDir": "dist",
-        "sourceMap": true,
-        "noImplicitAny": true,
-    },
-    "includes": ["src/**/*"],
-    "exclude": ["node_modules"],
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": false,
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "declaration": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

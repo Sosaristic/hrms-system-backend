@@ -1,10 +1,9 @@
 import { UserModel, User } from "../models/users.model";
 
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
-
 
 // Registration controller
 export const register = async (req: Request, res: Response) => {
@@ -26,7 +25,6 @@ export const register = async (req: Request, res: Response) => {
       name,
       email,
       password: hashedPassword,
-      
     });
     await user.save();
 
@@ -122,13 +120,16 @@ export const logout = async (req: Request, res: Response) => {
 
 export const getUsers = () => UserModel.find();
 
-export const getUsersByEmail = (email: string) => UserModel.findOne({email});
+export const getUsersByEmail = (email: string) => UserModel.findOne({ email });
 
-export const getUsersBySessionToken = (sessionToken: string) => UserModel.findOne({'autentication.sessionToken': sessionToken,});
+export const getUsersBySessionToken = (sessionToken: string) =>
+  UserModel.findOne({ "autentication.sessionToken": sessionToken });
 
-export const createUser = (values: Record<string, any>) => new UserModel(values).save().then((user) => user.toObject());
+export const createUser = (values: Record<string, any>) =>
+  new UserModel(values).save().then((user) => user.toObject());
 
-export const deleteUserById = (id: string) => UserModel.findOneAndDelete({_id: id});
+export const deleteUserById = (id: string) =>
+  UserModel.findOneAndDelete({ _id: id });
 
-export const updateUserById = (id: string, values: Record<string, any>) => UserModel.findByIdAndUpdate(id, values);
-
+export const updateUserById = (id: string, values: Record<string, any>) =>
+  UserModel.findByIdAndUpdate(id, values);
