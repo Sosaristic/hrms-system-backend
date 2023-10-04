@@ -24,7 +24,7 @@ app.use(
   compression({
     level: 6,
     threshold: 10 * 1000,
-  })
+  }),
 );
 app.use(cookieParser());
 app.use(bodyParser.json());
