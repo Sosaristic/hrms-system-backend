@@ -4,6 +4,8 @@ export interface User extends Document {
   name: string;
   email: string;
   password: string;
+  isAdmin: boolean;
+  isStaff: boolean;
 }
 
 const userSchema: Schema = new mongoose.Schema({
@@ -20,6 +22,15 @@ const userSchema: Schema = new mongoose.Schema({
     type: String,
     required: true,
     select: false,
+  },
+  role: {
+    type: String,
+    enum: ["ADMIN", "STAFF"],
+    default: "STAFF",
+  },
+  isActive: {
+    type: Boolean,
+    default: false,
   },
 });
 
