@@ -36,7 +36,7 @@ const main = async () => {
   try {
     const isConnected = await connectDB();
 
-    if (isConnected != undefined) {
+    if (isConnected) {
       console.log("Database connected");
     } else {
       console.log("Database not connected");

@@ -29,9 +29,9 @@ dotenv.config();
 // };
 
 const nodemailerConfig: EmailConfigProp = {
-  service: "gmail",
-  host: "smtp.gmail.com",
-  port: 587,
+  service: process.env.SERVICE,
+  host: process.env.GMAIL_HOST,
+  port: Number(process.env.EMAIL_PORT),
   secure: false,
   auth: {
     user: process.env.EMAIL_ADDRESS,
@@ -65,6 +65,7 @@ export const sendEmail = async (
         
         <a href="${payload.link}" style="display: inline-block; background-color: #007bff; color: #fff; margin-bottom: 0.5rem; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reset Password</a>
         <br/>
+        <b>Please note this link is valid for 10 minutes</b>
 
         <p>if the reset button does not work here is the direct link</>
         <a href="${payload.link}">${payload.link}</a>

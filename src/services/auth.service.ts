@@ -5,8 +5,8 @@ import { TokenModel } from "../models/token.model";
 
 import { sendEmail } from "../utils/emails/sendEmail";
 
-import crypto from "crypto";
 import bcrypt from "bcrypt";
+import { generateRandomString } from "../utils/helpers";
 
 export const signup = async (data, res) => {
   const existingUser = await UserModel.findOne({ email: data.email });
@@ -39,7 +39,7 @@ export const requestPasswordReset = async (email, res) => {
     await token.deleteOne();
   }
 
-  const resetToken = crypto.randomBytes(32).toString("hex");
+  const resetToken = await generateRandomString(32);
 
   const hash = await bcrypt.hash(resetToken, Number(process.env.BCRYPT_SALT));
 
