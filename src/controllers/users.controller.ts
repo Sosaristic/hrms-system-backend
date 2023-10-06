@@ -1,38 +1,30 @@
-import { UserModel, User } from "../models/users.model";
+import { UserModel} from "../models/users.model";
 
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import { resetPassword, requestPasswordReset, signup } from "../services/auth.service";
 
 // Registration controller
 export const register = async (req: Request, res: Response) => {
-  try {
+
     const { name, email, password } = req.body;
 
-    // Check if user already exists
-    const existingUser = await UserModel.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
-
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user
-    const user: User = new UserModel({
+
+    const data = {
       name,
       email,
-      password: hashedPassword,
-    });
-    await user.save();
+      password: hashedPassword
+    }
 
-    res.status(201).json({ message: "User created successfully" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
+    const signupService = await signup(data, res);
+
+    return res.status(200).json(signupService);
+    
 };
 
 // Login controller
@@ -41,11 +33,11 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     // Check if user exists
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }).select('+password');
+
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-
     // Check if password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -54,6 +46,7 @@ export const login = async (req: Request, res: Response) => {
 
     // Create and sign JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+
 
     res.status(200).json({ token });
   } catch (error) {
@@ -65,17 +58,18 @@ export const login = async (req: Request, res: Response) => {
 // Forgot password controller
 export const forgotPassword = async (req: Request, res: Response) => {
   try {
-    const { email } = req.body;
+
+    const { email } = req.body.email;
 
     // Check if user exists
     const user = await UserModel.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "User not found" });
+      return res.status(400).json({ message: "User with given email not found" });
     }
 
     // Generate password reset token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "120",
     });
 
     // Send password reset email
@@ -107,6 +101,26 @@ export const forgotPassword = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+export const requestResetPassword = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  const resetPasswordService = await requestPasswordReset(
+    email,
+    res
+  );
+
+  return res.status(200).json(resetPasswordService);
+};
+
+export const passwordReset = async (req: Request, res: Response) => {
+    const { userId, token, password } = req.body;
+
+    const resetPasswordService = await resetPassword(userId, token, password, res);
+
+    return res.status(200).json(resetPasswordService);   
+}
 
 // Logout controller
 export const logout = async (req: Request, res: Response) => {

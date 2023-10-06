@@ -4,6 +4,8 @@ import {
   register,
   forgotPassword,
   logout,
+  passwordReset,
+  requestResetPassword,
 } from "../controllers/users.controller";
 const router = Router();
 
@@ -11,6 +13,8 @@ const router = Router();
 router.post("/register", register);
 router.post("/login", login);
 router.post("/forgot-password", forgotPassword);
+router.post("/reset", passwordReset);
+router.post("/request-reset", requestResetPassword);
 router.post("/logout", logout);
 
 export default router;
