@@ -1,30 +1,31 @@
-import { UserModel} from "../models/users.model";
+import { UserModel } from "../models/users.model";
 
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
-import { resetPassword, requestPasswordReset, signup } from "../services/auth.service";
+import {
+  resetPassword,
+  requestPasswordReset,
+  signup,
+} from "../services/auth.service";
 
 // Registration controller
 export const register = async (req: Request, res: Response) => {
+  const { name, email, password } = req.body;
 
-    const { name, email, password } = req.body;
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+  const data = {
+    name,
+    email,
+    password: hashedPassword,
+  };
 
+  const signupService = await signup(data, res);
 
-    const data = {
-      name,
-      email,
-      password: hashedPassword
-    }
-
-    const signupService = await signup(data, res);
-
-    return res.status(200).json(signupService);
-    
+  return res.status(200).json(signupService);
 };
 
 // Login controller
@@ -33,7 +34,7 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     // Check if user exists
-    const user = await UserModel.findOne({ email }).select('+password');
+    const user = await UserModel.findOne({ email }).select("+password");
 
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -47,7 +48,6 @@ export const login = async (req: Request, res: Response) => {
     // Create and sign JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 
-
     res.status(200).json({ token });
   } catch (error) {
     console.log(error);
@@ -58,13 +58,14 @@ export const login = async (req: Request, res: Response) => {
 // Forgot password controller
 export const forgotPassword = async (req: Request, res: Response) => {
   try {
-
     const { email } = req.body.email;
 
     // Check if user exists
     const user = await UserModel.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "User with given email not found" });
+      return res
+        .status(400)
+        .json({ message: "User with given email not found" });
     }
 
     // Generate password reset token
@@ -102,25 +103,26 @@ export const forgotPassword = async (req: Request, res: Response) => {
   }
 };
 
-
 export const requestResetPassword = async (req: Request, res: Response) => {
   const { email } = req.body;
 
-  const resetPasswordService = await requestPasswordReset(
-    email,
-    res
-  );
+  const resetPasswordService = await requestPasswordReset(email, res);
 
   return res.status(200).json(resetPasswordService);
 };
 
 export const passwordReset = async (req: Request, res: Response) => {
-    const { userId, token, password } = req.body;
+  const { userId, token, password } = req.body;
 
-    const resetPasswordService = await resetPassword(userId, token, password, res);
+  const resetPasswordService = await resetPassword(
+    userId,
+    token,
+    password,
+    res,
+  );
 
-    return res.status(200).json(resetPasswordService);   
-}
+  return res.status(200).json(resetPasswordService);
+};
 
 // Logout controller
 export const logout = async (req: Request, res: Response) => {
