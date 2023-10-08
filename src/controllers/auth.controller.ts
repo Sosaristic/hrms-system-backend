@@ -65,7 +65,7 @@ export const authLogin = tryCatch(async (req: Request, res: Response) => {
   };
   user.refreshToken = refreshToken;
   await user.save();
-  return res.status(200).json({ status: "success", user: userData });
+  return res.status(201).json({ status: "success", user: userData });
 });
 
 //
@@ -114,7 +114,7 @@ export const forgetPassword = tryCatch(async (req: Request, res: Response) => {
   return res.status(200).json({
     status: "success",
     message:
-      "Password email sent, Kindly check your email to reset your password",
+      "Password email reset sent, Kindly check your email to reset your password",
   });
 });
 
