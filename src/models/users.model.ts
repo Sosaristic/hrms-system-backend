@@ -4,8 +4,9 @@ export interface User extends Document {
   name: string;
   email: string;
   password: string;
-  isAdmin: boolean;
-  isStaff: boolean;
+  role: string;
+  emailVerified: boolean;
+  refreshToken: string;
 }
 
 const userSchema: Schema = new mongoose.Schema({
@@ -28,9 +29,13 @@ const userSchema: Schema = new mongoose.Schema({
     enum: ["ADMIN", "STAFF"],
     default: "STAFF",
   },
-  isActive: {
+  emailVerified: {
     type: Boolean,
     default: false,
+  },
+  refreshToken: {
+    type: String,
+    select: false,
   },
 });
 
