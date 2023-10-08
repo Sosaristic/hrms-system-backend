@@ -15,6 +15,10 @@ import {
 } from "../utils/emails/emailTemplates";
 import { hashPassword } from "../utils/helpers/index";
 
+export const testRoute = (req: Request, res: Response) => {
+  return res.json({ message: "test...." });
+};
+
 // login
 
 export const authLogin = tryCatch(async (req: Request, res: Response) => {
@@ -61,7 +65,8 @@ export const authLogin = tryCatch(async (req: Request, res: Response) => {
     email: user.email,
     emailVerified: user.emailVerified,
     role: user.role,
-    token: accessToken,
+    accessToken,
+    refreshToken,
   };
   user.refreshToken = refreshToken;
   await user.save();
@@ -70,7 +75,7 @@ export const authLogin = tryCatch(async (req: Request, res: Response) => {
 
 //
 export const getToken = tryCatch(async (req: Request, res: Response) => {
-  const refresh = req.cookies["resfresh"];
+  const refresh = req.cookies["refresh"];
   const decoded = verifyJwt(refresh);
   const user = await UserModel.findOne({ _id: decoded.userId })
     .select("+refreshToken")

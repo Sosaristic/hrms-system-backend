@@ -13,13 +13,10 @@ export class ErrorValidator {
   }
   zodValidator() {
     const { errors } = this.error;
-    const details = errors.map((error) => ({
-      field: error.path[0],
-      message: error.message,
-    }));
+    const message = errors.map((error) => error.message).join(",");
     return this.res
       .status(400)
-      .json({ status: "invalid_input", details, statusCode: 400 });
+      .json({ status: "invalid_input", message, statusCode: 400 });
   }
   customValidator() {
     const error = this.error;
@@ -27,7 +24,7 @@ export class ErrorValidator {
     const statusCode = error.statusCode;
     return this.res.status(error.statusCode).json({
       status: error.status,
-      details: { message },
+      message,
       statusCode,
     });
   }
