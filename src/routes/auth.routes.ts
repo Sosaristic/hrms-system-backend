@@ -10,10 +10,10 @@ import { protectUser } from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.post("/auth/login", authLogin);
-router.post("/auth/refresh/token", getToken);
-router.post("/auth/forget-password", forgetPassword);
-router.post("/auth/reset-password/:token", confirmPasswordReset);
+router.post("/login", authLogin);
+router.post("/refresh/token", getToken);
+router.post("/forget-password", forgetPassword);
+router.post("/reset-password/:token", confirmPasswordReset);
 router.use(protectUser);
 router.get("/auth/test", testRoute);
 

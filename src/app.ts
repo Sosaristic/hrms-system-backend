@@ -7,6 +7,7 @@ import cors, { CorsOptions } from "cors";
 import dotenv from "dotenv";
 import userRoute from "./routes/users.routes";
 import authRoute from "./routes/auth.routes";
+import candidateRoute from "./routes/candidate.routes";
 import morgan from "morgan";
 import CustomError from "./utils/error/CustomError";
 import errorController from "./controllers/error.controller";
@@ -52,7 +53,8 @@ app.post(
   })
 );
 app.use("/api/v1/", userRoute);
-app.use("/api/v1/", authRoute);
+app.use("/api/v1/auth/", authRoute);
+app.use("/api/v1/candidate/", candidateRoute);
 
 app.use(express.static(path.join(__dirname, "public")));
 

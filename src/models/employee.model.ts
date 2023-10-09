@@ -9,10 +9,6 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     enum: ["ACTIVE", "ON BOARDING", "ON LEAVE"],
   },
-  employmentType: {
-    type: String,
-    enum: ["FULL TIME", "PART TIME", "CONTRACT"],
-  },
   imageUrl: {
     type: String,
   },

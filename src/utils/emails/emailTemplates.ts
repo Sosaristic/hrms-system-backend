@@ -30,3 +30,62 @@ export const resetSuccessTemplate = (payload: messagePayloadType) => {
     `;
   return html;
 };
+
+type offerMessagePayload = {
+  name: string;
+  jobTitle: string;
+  companyName: string;
+  companyEmail: string;
+  registerLink: string;
+};
+
+export const offerLetterTemplate = (payload: offerMessagePayload) => {
+  const html = `
+  <p style="font-size:1.5rem">Dear ${payload.name},</p>
+
+  <p>
+  We are thrilled to extend a formal offer of employment to you for the position of ${payload.jobTitle} at ${payload.companyName}. Your exceptional qualifications and experience have impressed us, and we believe you will be a valuable addition to our team.
+  </p> 
+  
+   <p>To accept this offer, please click on the following link within the next two weeks: <a href="${payload.registerLink}">link</a>.</p> 
+   <p>You will be directed to a secure portal to complete your registration and provide any necessary documentation.</p>
+   <p>
+   Should you have any questions or require further information, please do not hesitate to reach out to ${payload.companyName} at <a href="mail:${payload.companyEmail}">${payload.companyEmail}</a> or [HR Contact Phone Number].
+   </p>
+  
+  <p>We are excited about the prospect of having you on board and look forward to your positive response.</p> 
+  
+  <p>Welcome to ${payload.companyName}!</p> 
+  
+  <p>Sincerely,</p> 
+  
+  <p>${payload.companyName}</p>
+  <p>${payload.companyEmail}</p>
+  
+  `;
+  return html;
+};
+
+type rejectPayloadType = {
+  name: string;
+  jobTitle: string;
+  companyName: string;
+};
+export const rejectionLetterTemplate = (payload: rejectPayloadType) => {
+  const html = `Dear ${payload.name},
+
+  <p>I hope this message finds you well. We want to express our sincere appreciation for your interest in the ${payload.jobTitle} position at ${payload.companyName} . Your application was carefully reviewed, and we were impressed with your qualifications.</p> 
+  
+  <p>After careful consideration, we regret to inform you that we have chosen to move forward with another candidate who closely aligns with our current needs.</p>  
+  <p>We genuinely value your time and effort in applying with us and wish you every success in your job search.</p>
+  
+  <p>Thank you for considering ${payload.companyName} as a potential employer.</p>
+  
+  
+  <p>Best regards,</p>
+  
+  <p> ${payload.companyName}</p>
+  
+  `;
+  return html;
+};
