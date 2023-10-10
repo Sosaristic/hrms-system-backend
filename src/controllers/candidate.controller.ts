@@ -1,3 +1,4 @@
+import { JobModel } from "./../models/job.model";
 import { tryCatch } from "../utils/tryCatch";
 import { Request, Response } from "express";
 import { CandidateModel } from "../models/candidate.model";
@@ -12,10 +13,11 @@ import {
 export const addCandidate = tryCatch(async (req: Request, res: Response) => {
   const data = addCandidateSchema.parse(req.body);
   const { name, email, jobTitle, resume, phoneNumber } = data;
+  const job = JobModel.findOne({ title: jobTitle });
   const candidate = await CandidateModel.create({
     name,
     email,
-    jobTitle,
+    job,
     resume,
     phoneNumber,
   });
@@ -59,7 +61,9 @@ export const acceptCandidate = tryCatch(async (req: Request, res: Response) => {
     { _id: id },
     { $set: { candidateStatus: "SELECTED" } },
     { new: true }
-  ).exec();
+  )
+    .populate("job")
+    .exec();
   if (!candidate) {
     throw new CustomError("Candidate not found", 400);
   }
@@ -67,7 +71,7 @@ export const acceptCandidate = tryCatch(async (req: Request, res: Response) => {
   const link = `${process.env.CLIENT_URL}/employee/register/?id=${candidate._id}`;
   const html = offerLetterTemplate({
     name: candidate.name,
-    jobTitle: candidate.jobTitle,
+    jobTitle: candidate.job.title,
     companyEmail: process.env.EMAIL_ADDRESS,
     companyName: "HRMS",
     registerLink: link,
@@ -95,7 +99,7 @@ export const rejectCandidate = tryCatch(async (req: Request, res: Response) => {
   const subject = "Offer Letter";
   const html = rejectionLetterTemplate({
     name: candidate.name,
-    jobTitle: candidate.jobTitle,
+    jobTitle: candidate.job.title,
     companyName: "HRMS",
   });
   sendEmail({ email: candidate.email, subject, html });

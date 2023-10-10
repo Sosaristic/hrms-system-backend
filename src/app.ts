@@ -8,7 +8,14 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import CustomError from "./utils/error/CustomError";
 import errorController from "./controllers/error.controller";
-import { authRoute, candidateRoute, jobRoute, userRoute } from "./routes";
+import {
+  authRoute,
+  candidateRoute,
+  departmentRoute,
+  employeeRoute,
+  jobRoute,
+  userRoute,
+} from "./routes";
 
 dotenv.config();
 
@@ -43,6 +50,8 @@ app.use("/api/v1/", userRoute);
 app.use("/api/v1/auth/", authRoute);
 app.use("/api/v1/candidate/", candidateRoute);
 app.use("/api/v1/job/", jobRoute);
+app.use("/api/v1/department/", departmentRoute);
+app.use("/api/v1/employee/", employeeRoute);
 
 app.use(express.static(path.join(__dirname, "public")));
 

@@ -1,7 +1,7 @@
 import mongoose, { Document } from "mongoose";
 import { Schema } from "mongoose";
 
-export interface Job extends Document {
+export interface JobType extends Document {
   title: string;
   jobType: string;
   amount: number;
@@ -33,4 +33,4 @@ const JobSchema: Schema = new mongoose.Schema({
   },
 });
 
-export const JobModel = mongoose.model<Job>("Job", JobSchema);
+export const JobModel = mongoose.model<JobType>("Job", JobSchema);

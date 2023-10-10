@@ -1,10 +1,11 @@
 import mongoose, { Document, Schema } from "mongoose";
+import { JobType } from "./job.model";
 
 export interface Candidate extends Document {
   name: string;
   email: string;
   candidateStatus: string;
-  jobTitle: string;
+  job: JobType;
   phoneNumber: number;
   resume: string;
 }
@@ -25,8 +26,9 @@ const candidateSchema: Schema = new mongoose.Schema(
       enum: ["SELECTED", "IN PROGRESS", "REJECTED"],
       default: "IN PROGRESS",
     },
-    jobTitle: {
-      type: String,
+    job: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Job",
       require: true,
     },
     resume: {
