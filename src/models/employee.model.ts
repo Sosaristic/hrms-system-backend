@@ -7,7 +7,7 @@ const employeeSchema = new mongoose.Schema({
   },
   employmentStatus: {
     type: String,
-    enum: ["ACTIVE", "ON BOARDING", "ON LEAVE"],
+    enum: ["ACTIVE", "ON LEAVE"],
   },
   imageUrl: {
     type: String,
