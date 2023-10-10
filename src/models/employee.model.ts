@@ -24,7 +24,12 @@ const employeeSchema = new mongoose.Schema({
     enum: ["MALE", "FEMALE"],
   },
   jobTitle: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Job",
+  },
+  department: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Department",
   },
 });
 

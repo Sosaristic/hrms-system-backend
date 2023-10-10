@@ -5,14 +5,10 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors, { CorsOptions } from "cors";
 import dotenv from "dotenv";
-import userRoute from "./routes/users.routes";
-import authRoute from "./routes/auth.routes";
-import candidateRoute from "./routes/candidate.routes";
 import morgan from "morgan";
 import CustomError from "./utils/error/CustomError";
 import errorController from "./controllers/error.controller";
-import { loginBodySchema } from "./validators/auth.validators";
-import { tryCatch } from "./utils/tryCatch";
+import { authRoute, candidateRoute, jobRoute, userRoute } from "./routes";
 
 dotenv.config();
 
@@ -43,18 +39,10 @@ process.on("uncaughtException", (err) => {
 });
 
 // app routes
-app.post(
-  "/test/",
-  tryCatch(async (req, res) => {
-    const data = await loginBodySchema.parseAsync(req.body);
-    if (data) {
-      return res.status(200).json({ success: true });
-    }
-  })
-);
 app.use("/api/v1/", userRoute);
 app.use("/api/v1/auth/", authRoute);
 app.use("/api/v1/candidate/", candidateRoute);
+app.use("/api/v1/job/", jobRoute);
 
 app.use(express.static(path.join(__dirname, "public")));
 

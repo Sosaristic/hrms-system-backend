@@ -2,10 +2,11 @@ import { Router } from "express";
 
 import { protectAdmin } from "../middleware/auth.middleware";
 import {
-  acceptRejectCandidate,
+  acceptCandidate,
   addCandidate,
   allCandidate,
   deleteCandidate,
+  rejectCandidate,
   singleCandidate,
 } from "../controllers/candidate.controller";
 
@@ -15,7 +16,8 @@ router.use(protectAdmin);
 router.post("/", addCandidate);
 router.get("/", allCandidate);
 router.get("/:id", singleCandidate);
-router.put("/:id", acceptRejectCandidate);
 router.delete("/:id", deleteCandidate);
+router.post("/accept/:id", acceptCandidate);
+router.post("/reject/:id", rejectCandidate);
 
 export default router;
