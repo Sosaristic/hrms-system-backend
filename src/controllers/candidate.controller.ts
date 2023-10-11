@@ -45,6 +45,7 @@ export const allCandidate = tryCatch(async (req: Request, res: Response) => {
   const limit = Number(req.query.limit) || 10;
 
   const candidates = await CandidateModel.find({})
+    .populate({ path: "job", select: "title salary" })
     .skip((page - 1) * limit)
     .limit(limit)
     .exec();
@@ -53,7 +54,7 @@ export const allCandidate = tryCatch(async (req: Request, res: Response) => {
 
 export const singleCandidate = tryCatch(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const candidate = await CandidateModel.findOne({ _id: id });
+  const candidate = await CandidateModel.findOne({ _id: id }).populate("job");
   if (!candidate) {
     throw new CustomError("Candidate not found", 400);
   }
@@ -86,8 +87,7 @@ export const acceptCandidate = tryCatch(async (req: Request, res: Response) => {
 
   return res.status(201).json({
     status: "success",
-    message: `Candidate ${candidate.candidateStatus.toLocaleLowerCase()} successfully`,
-    data: candidate,
+    message: `${candidate.name} offer letter sent successfully`,
   });
 });
 
@@ -102,7 +102,7 @@ export const rejectCandidate = tryCatch(async (req: Request, res: Response) => {
   if (!candidate) {
     throw new CustomError("Candidate not found", 400);
   }
-  const subject = "Offer Letter";
+  const subject = "Rejection Letter";
   const html = rejectionLetterTemplate({
     name: candidate.name,
     jobTitle: candidate.job.title,
@@ -112,8 +112,7 @@ export const rejectCandidate = tryCatch(async (req: Request, res: Response) => {
 
   return res.status(201).json({
     status: "success",
-    message: `Candidate ${candidate.candidateStatus.toLocaleLowerCase()} successfully`,
-    data: candidate,
+    message: `${candidate.name} rejection letter sent successfully`,
   });
 });
 

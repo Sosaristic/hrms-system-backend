@@ -11,7 +11,7 @@ export interface Employee extends Document {
   phoneNumber: number;
   salary: number;
   gender: string;
-  jobTitle: JobType;
+  job: JobType;
   department: DepartmentType;
 }
 
@@ -42,7 +42,7 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     enum: ["MALE", "FEMALE"],
   },
-  jobTitle: {
+  job: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Job",
   },
@@ -52,4 +52,7 @@ const employeeSchema = new mongoose.Schema({
   },
 });
 
-export const EmployeeModel = mongoose.model("Employee", employeeSchema);
+export const EmployeeModel = mongoose.model<Employee>(
+  "Employee",
+  employeeSchema
+);

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { protectAdmin } from "../middleware/auth.middleware";
 import {
   allEmployee,
   registerEmployee,
@@ -7,7 +6,7 @@ import {
 
 const router = Router();
 
-router.use(protectAdmin);
+// router.use(protectAdmin);
 router.get("/", allEmployee);
 router.post("/register", registerEmployee);
 

@@ -8,12 +8,16 @@ import { CandidateModel } from "../models/candidate.model";
 import CustomError from "../utils/error/CustomError";
 import { EmployeeModel } from "../models/employee.model";
 import { UserModel } from "../models/users.model";
-import { hashPassword } from "../utils/helpers";
+import { hashPassword, uploadToCloudinary } from "../utils/helpers";
 
 export const registerEmployee = tryCatch(
   async (req: Request, res: Response) => {
-    const { candidateId, gender, password } = addEmployeeSchema.parse(req.body);
-    const candidate = await CandidateModel.findOne({ _id: candidateId });
+    const { candidateId, gender, image, password } = addEmployeeSchema.parse(
+      req.body
+    );
+    const candidate = await CandidateModel.findOne({
+      _id: candidateId,
+    }).populate("job job.department");
     if (!candidate.$isValid) {
       throw new CustomError("Candidate not found", 404);
     }
@@ -22,16 +26,27 @@ export const registerEmployee = tryCatch(
       name: candidate.name,
       password: passwordHash,
       email: candidate.email,
+      emailVerified: true,
     });
-    const employee = await EmployeeModel.create({
+
+    const imageFile = await uploadToCloudinary({
+      file: image,
+      folder: "HRMS/Images",
+    });
+
+    await EmployeeModel.create({
       user: user,
       gender: gender,
+      imageUrl: imageFile.secure_url,
+      salary: candidate.job.salary,
+      phoneNumber: candidate.phoneNumber,
+      job: candidate.job,
+      department: candidate.job.department,
     });
 
     return res.status(201).json({
       status: "success",
       message: "Account Successfully Created",
-      data: employee,
     });
   }
 );
@@ -40,6 +55,9 @@ export const allEmployee = tryCatch(async (req: Request, res: Response) => {
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 10;
   const employees = await EmployeeModel.find({})
+    .populate({
+      path: "user job department",
+    })
     .skip((page - 1) * limit)
     .limit(limit)
     .exec();
