@@ -36,11 +36,15 @@ export const protectAdmin = async (
 ) => {
   const bearer = req.headers.authorization;
   if (!bearer) {
-    return res.status(401).json({ status: "error", message: "UnAuthorized" });
+    return res
+      .status(401)
+      .json({ status: "error", message: "UnAuthorized User" });
   }
   const [, token] = bearer.split(" ");
   if (!token) {
-    return res.status(401).json({ status: "error", message: "UnAuthorized" });
+    return res
+      .status(401)
+      .json({ status: "error", message: "UnAuthorized User" });
   }
   try {
     const payload = verifyJwt(token);
@@ -49,8 +53,12 @@ export const protectAdmin = async (
       req.user = payload;
       return next();
     }
-    return res.status(401).json({ status: "error", message: "UnAuthorized" });
+    return res
+      .status(401)
+      .json({ status: "error", message: "UnAuthorized User" });
   } catch (e) {
-    return res.status(401).json({ status: "error", message: "UnAuthorized" });
+    return res
+      .status(401)
+      .json({ status: "error", message: "UnAuthorized User" });
   }
 };

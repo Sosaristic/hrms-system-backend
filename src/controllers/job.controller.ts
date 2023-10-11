@@ -7,13 +7,20 @@ import CustomError from "../utils/error/CustomError";
 
 export const addJob = tryCatch(async (req: Request, res: Response) => {
   const data = addJobSchema.parse(req.body);
-  const { department, title, jobType, amount } = data;
-
-  const jobDepartment = await DepartmentModel.findOne({ name: department });
+  const { department, title, jobType, description, salary } = data;
+  const dept = department.toLowerCase();
+  const jobDepartment = await DepartmentModel.findOne({ name: dept });
+  if (!jobDepartment) {
+    throw new CustomError(
+      "Kindly provide a valid department for this job",
+      400
+    );
+  }
   const job = await JobModel.create({
     title,
     jobType,
-    amount,
+    description,
+    salary,
     department: jobDepartment,
   });
 
@@ -27,19 +34,21 @@ export const addJob = tryCatch(async (req: Request, res: Response) => {
 export const allJobs = tryCatch(async (req: Request, res: Response) => {
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 10;
-  const jobs = JobModel.find({})
+  const jobs = await JobModel.find({})
+    .populate("department")
     .skip((page - 1) * limit)
     .limit(limit)
     .exec();
   if (!jobs) {
-    throw new CustomError("Sorry, No data found", 404);
+    throw new CustomError("Sorry, Jobs not found", 404);
   }
   return res.status(200).json({ status: "success", data: jobs });
 });
 
 export const singleJob = tryCatch(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const job = JobModel.findOne({ _id: id });
+
+  const job = await JobModel.findOne({ _id: id }).populate("department");
   if (!job) {
     throw new CustomError("Sorry, Job not found", 404);
   }

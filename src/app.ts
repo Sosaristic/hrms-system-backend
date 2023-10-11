@@ -14,8 +14,8 @@ import {
   departmentRoute,
   employeeRoute,
   jobRoute,
-  userRoute,
 } from "./routes";
+import { cloudinaryConfig } from "./db/cloudinary";
 
 dotenv.config();
 
@@ -25,7 +25,7 @@ const app = express();
 const corsOptions: CorsOptions = {
   credentials: true,
 };
-
+cloudinaryConfig();
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
@@ -46,7 +46,7 @@ process.on("uncaughtException", (err) => {
 });
 
 // app routes
-app.use("/api/v1/", userRoute);
+// app.use("/api/v1/", userRoute);
 app.use("/api/v1/auth/", authRoute);
 app.use("/api/v1/candidate/", candidateRoute);
 app.use("/api/v1/job/", jobRoute);

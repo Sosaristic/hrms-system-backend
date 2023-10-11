@@ -3,10 +3,11 @@ import { Schema } from "mongoose";
 
 export interface JobType extends Document {
   title: string;
-  jobType: string;
-  amount: number;
+  jobType: string; // Remote or full time
+  salary: number;
   department: string;
-  status: string;
+  description: string;
+  status: string; // active or close
 }
 
 const JobSchema: Schema = new mongoose.Schema({
@@ -20,7 +21,10 @@ const JobSchema: Schema = new mongoose.Schema({
   },
   jobType: {
     type: String,
-    enum: ["FULL TIME", "REMOTE"],
+    enum: ["ONSITE", "REMOTE", "HYBRID"],
+  },
+  description: {
+    type: String,
   },
   status: {
     type: String,

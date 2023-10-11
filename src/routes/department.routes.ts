@@ -12,7 +12,7 @@ const router = Router();
 router.use(protectAdmin);
 router.get("/", allDepartment);
 router.post("/register", addDepartment);
-router.post("/edit/:id", editDepartment);
-router.post("/delete/:id", deleteDepartment);
+router.patch("/edit/:id", editDepartment);
+router.delete("/delete/:id", deleteDepartment);
 
 export default router;

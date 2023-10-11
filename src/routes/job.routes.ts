@@ -11,11 +11,11 @@ import {
 
 const router = Router();
 
-router.use(protectAdmin);
-router.post("/", addJob);
 router.get("/", allJobs);
+router.use(protectAdmin);
+router.post("/register", addJob);
 router.get("/:id", singleJob);
 router.delete("/:id", deleteJob);
-router.post("/status/:id", changeJobStatus);
+router.patch("/status/:id", changeJobStatus);
 
 export default router;

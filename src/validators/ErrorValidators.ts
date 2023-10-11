@@ -28,4 +28,22 @@ export class ErrorValidator {
       statusCode,
     });
   }
+  mongoUniqueValidator() {
+    const message = "Duplicate key error. Data already exits";
+    return this.res.status(400).json({
+      status: "error",
+      message,
+    });
+  }
+
+  mongoCastValidator() {
+    return this.res
+      .status(400)
+      .json({ message: "Invalid Data type,Kindly Check the data passed" });
+  }
+  largePayload() {
+    return this.res
+      .status(413)
+      .json({ status: "error", message: "File too Large" });
+  }
 }

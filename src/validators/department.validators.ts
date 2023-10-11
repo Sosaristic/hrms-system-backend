@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const addDepartmentSchema = z.object({
-  name: z.string(),
+  name: z.string({ required_error: "Department name is required" }),
   departmentHead: z.string().optional(),
 });
 

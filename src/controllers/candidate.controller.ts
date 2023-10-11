@@ -1,4 +1,3 @@
-import { JobModel } from "./../models/job.model";
 import { tryCatch } from "../utils/tryCatch";
 import { Request, Response } from "express";
 import { CandidateModel } from "../models/candidate.model";
@@ -9,21 +8,28 @@ import {
   offerLetterTemplate,
   rejectionLetterTemplate,
 } from "../utils/emails/emailTemplates";
+import { uploadToCloudinary } from "../utils/helpers";
+import { JobModel } from "../models/job.model";
 
 export const addCandidate = tryCatch(async (req: Request, res: Response) => {
   const data = addCandidateSchema.parse(req.body);
   const { name, email, jobTitle, resume, phoneNumber } = data;
-  const job = JobModel.findOne({ title: jobTitle });
+
+  const resumeFile = await uploadToCloudinary({
+    file: resume,
+    folder: "HRMS/Resume",
+  });
+  const job = await JobModel.findOne({ title: jobTitle });
   const candidate = await CandidateModel.create({
     name,
     email,
     job,
-    resume,
+    resume: resumeFile.secure_url,
     phoneNumber,
   });
   if (!candidate) {
     throw new CustomError(
-      "Sorry, Error occur why registering a candidate",
+      "Sorry, Error occur why registering this candidate",
       400
     );
   }

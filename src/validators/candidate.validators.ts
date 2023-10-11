@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 export const addCandidateSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  jobTitle: z.string(),
-  resume: z.string(),
+  name: z.string({ required_error: "Candidate name is required" }),
+  email: z.string({ required_error: "Candidate email is required" }).email(),
+  jobTitle: z.string({ required_error: "Job title name is required" }),
+  resume: z.string({ required_error: "Resume is required" }),
   phoneNumber: z.coerce.number().optional(),
 });
 

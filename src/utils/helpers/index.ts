@@ -2,6 +2,7 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import CustomError from "../error/CustomError";
+import { v2 as cloudinary } from "cloudinary";
 
 export const generateRandomString = (length: number) => {
   return crypto.randomBytes(length).toString("hex");
@@ -57,5 +58,26 @@ export const verifyJwt = (token: string) => {
     return decoded as { userId: string; role?: string };
   } catch (error) {
     throw new CustomError("Invalid Token", 403);
+  }
+};
+
+// Cloudinary
+export const uploadToCloudinary = async ({ file, folder }) => {
+  try {
+    const data = await cloudinary.uploader.upload(file, {
+      folder: folder,
+    });
+    return data;
+  } catch (error) {
+    throw new CustomError("Invalid File Type", 400);
+  }
+};
+
+export const deleteFromCloudinry = async (url: string) => {
+  const public_id = url.split("/").slice(-3).join("/").split(".")[0];
+  try {
+    await cloudinary.uploader.destroy(public_id);
+  } catch (error) {
+    throw new CustomError("File cannot be deleted ", 400);
   }
 };

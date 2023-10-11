@@ -10,12 +10,14 @@ export const addDepartment = tryCatch(async (req: Request, res: Response) => {
   if (!data) {
     throw new CustomError("In valid data", 400);
   }
-  const { name, departmentHead } = data;
-  const employee = await EmployeeModel.findOne({ "user.name": departmentHead });
+  const { name } = data;
+  const deptName = name.toLowerCase();
   const department = await DepartmentModel.create({
-    name: name,
-    departmentHead: employee || "",
+    name: deptName,
   });
+  if (!department) {
+    throw new CustomError("Department already exist", 400);
+  }
 
   return res.status(201).json({
     status: "success",
