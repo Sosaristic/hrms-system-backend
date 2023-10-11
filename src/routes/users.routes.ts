@@ -5,6 +5,7 @@ import {
   forgotPassword,
   logout,
 } from "../controllers/users.controller";
+
 const router = Router();
 
 // User routes

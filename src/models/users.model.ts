@@ -1,11 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export interface User extends Document {
+export interface UserType extends Document {
   name: string;
   email: string;
   password: string;
-  isAdmin: boolean;
-  isStaff: boolean;
+  role: string;
+  emailVerified: boolean;
+  refreshToken: string;
 }
 
 const userSchema: Schema = new mongoose.Schema({
@@ -28,10 +29,14 @@ const userSchema: Schema = new mongoose.Schema({
     enum: ["ADMIN", "STAFF"],
     default: "STAFF",
   },
-  isActive: {
+  emailVerified: {
     type: Boolean,
     default: false,
   },
+  refreshToken: {
+    type: String,
+    select: false,
+  },
 });
 
-export const UserModel = mongoose.model<User>("User", userSchema);
+export const UserModel = mongoose.model<UserType>("User", userSchema);

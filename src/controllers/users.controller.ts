@@ -1,4 +1,4 @@
-import { UserModel, User } from "../models/users.model";
+import { UserModel, UserType } from "../models/users.model";
 
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
@@ -21,7 +21,7 @@ export const register = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user
-    const user: User = new UserModel({
+    const user: UserType = new UserModel({
       name,
       email,
       password: hashedPassword,
@@ -125,11 +125,11 @@ export const getUsersByEmail = (email: string) => UserModel.findOne({ email });
 export const getUsersBySessionToken = (sessionToken: string) =>
   UserModel.findOne({ "autentication.sessionToken": sessionToken });
 
-export const createUser = (values: Record<string, any>) =>
-  new UserModel(values).save().then((user) => user.toObject());
+// export const createUser = (values: Record<string, any>) =>
+//   new UserModel(values).save().then((user) => user.toObject());
 
-export const deleteUserById = (id: string) =>
-  UserModel.findOneAndDelete({ _id: id });
+// export const deleteUserById = (id: string) =>
+//   UserModel.findOneAndDelete({ _id: id });
 
-export const updateUserById = (id: string, values: Record<string, any>) =>
-  UserModel.findByIdAndUpdate(id, values);
+// export const updateUserById = (id: string, values: Record<string, any>) =>
+//   UserModel.findByIdAndUpdate(id, values);

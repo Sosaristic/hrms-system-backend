@@ -1,4 +1,19 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
+import { UserType } from "./users.model";
+import { JobType } from "./job.model";
+import { DepartmentType } from "./department.model";
+
+export interface Employee extends Document {
+  user: UserType;
+  employmentStatus: string;
+  imageUrl: string;
+  joinDate: Date;
+  phoneNumber: number;
+  salary: number;
+  gender: string;
+  job: JobType;
+  department: DepartmentType;
+}
 
 const employeeSchema = new mongoose.Schema({
   user: {
@@ -7,11 +22,8 @@ const employeeSchema = new mongoose.Schema({
   },
   employmentStatus: {
     type: String,
-    enum: ["ACTIVE", "ON BOARDING", "ON LEAVE"],
-  },
-  employmentType: {
-    type: String,
-    enum: ["FULL TIME", "PART TIME", "CONTRACT"],
+    enum: ["ACTIVE", "ON LEAVE"],
+    default: "ACTIVE",
   },
   imageUrl: {
     type: String,
@@ -23,13 +35,24 @@ const employeeSchema = new mongoose.Schema({
   phoneNumber: {
     type: Number,
   },
+  salary: {
+    type: Number,
+  },
   gender: {
     type: String,
     enum: ["MALE", "FEMALE"],
   },
-  jobTitle: {
-    type: String,
+  job: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Job",
+  },
+  department: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Department",
   },
 });
 
-export const EmployeeModel = mongoose.model("Employee", employeeSchema);
+export const EmployeeModel = mongoose.model<Employee>(
+  "Employee",
+  employeeSchema
+);
