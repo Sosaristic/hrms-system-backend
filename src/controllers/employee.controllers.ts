@@ -63,3 +63,13 @@ export const allEmployee = tryCatch(async (req: Request, res: Response) => {
     .exec();
   return res.status(200).json({ status: "success", data: employees });
 });
+
+export const singleEmployee = tryCatch(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const employee = await EmployeeModel.findOne({ _id: id })
+    .populate({
+      path: "user job department",
+    })
+    .exec();
+  return res.status(200).json({ status: "success", data: employee });
+});
