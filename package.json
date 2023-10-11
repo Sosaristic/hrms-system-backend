@@ -27,7 +27,6 @@
     "@types/jest": "^29.5.5",
     "@types/jsonwebtoken": "^9.0.3",
     "@types/mongodb": "^4.0.7",
-    "@types/multer": "^1.4.8",
     "@types/nodemailer": "^6.4.11",
     "@types/passport": "^1.0.13",
     "@types/uuid": "^9.0.4",
@@ -56,22 +55,13 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "express-async-errors": "^3.1.1",
-    "express-fileupload": "^1.4.1",
     "express-rate-limit": "^7.0.2",
     "helmet": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
-    "moment": "^2.29.4",
     "mongoose": "^7.5.3",
     "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.5",
-    "passport": "^0.6.0",
-    "socket.io": "^4.7.2",
-    "uuid": "^9.0.1",
-    "validator": "^13.11.0",
     "winston": "^3.10.0",
-    "zod": "^3.22.3",
-    "zod-express-middleware": "^1.4.0"
+    "zod": "^3.22.3"
   }
 }
