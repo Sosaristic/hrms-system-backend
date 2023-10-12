@@ -15,6 +15,7 @@ const errorController = (
 ) => {
   const validator = new ErrorValidator(res, error);
   next;
+  console.log({ error });
   if (error.name === "ZodError") {
     return validator.zodValidator();
   }
