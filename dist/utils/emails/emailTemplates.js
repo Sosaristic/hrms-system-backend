@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectionLetterTemplate = exports.offerLetterTemplate = exports.resetSuccessTemplate = exports.resetPasswordTemplate = void 0;
+exports.changeToAdminTemplate = exports.rejectionLetterTemplate = exports.offerLetterTemplate = exports.resetSuccessTemplate = exports.resetPasswordTemplate = void 0;
 var resetPasswordTemplate = function (payload) {
     var html = "\n    <p>Hello ".concat(payload.name, ",</p>\n        <p>You have requested to reset your password. Please click the link below to reset your password:</p>\n        \n        <a href=\"").concat(payload.link, "\" style=\"display: inline-block; background-color: #007bff; color: #fff; margin-bottom: 0.5rem; padding: 10px 20px; text-decoration: none; border-radius: 5px;\">Reset Password</a>\n        <br/>\n        <b>Please note this link is valid for ").concat(payload.duration, "</b>\n\n        <p>if the reset button does not work here is the direct link</>\n        <a href=\"").concat(payload.link, "\">").concat(payload.link, "</a>\n        <p>If you did not request this, please ignore this email.</p>\n    ");
     return html;
@@ -21,4 +21,9 @@ var rejectionLetterTemplate = function (payload) {
     return html;
 };
 exports.rejectionLetterTemplate = rejectionLetterTemplate;
+var changeToAdminTemplate = function (payload) {
+    var html = "Dear ".concat(payload.name, ",\n\n  <p>You have requested to set your account to admin. Please click the link below </p>\n        \n  <a href=\"").concat(payload.link, "\" style=\"display: inline-block; background-color: #007bff; color: #fff; margin-bottom: 0.5rem; padding: 10px 20px; text-decoration: none; border-radius: 5px;\">Click here</a>\n  <br/>\n\n  <p>if the reset button does not work here is the direct link</>\n  <a href=\"").concat(payload.link, "\">").concat(payload.link, "</a>\n  <p>If you did not request this, please ignore this email.</p>\n  \n  ");
+    return html;
+};
+exports.changeToAdminTemplate = changeToAdminTemplate;
 //# sourceMappingURL=emailTemplates.js.map

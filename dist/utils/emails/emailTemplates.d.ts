@@ -19,4 +19,9 @@ type rejectPayloadType = {
     companyName: string;
 };
 export declare const rejectionLetterTemplate: (payload: rejectPayloadType) => string;
+type setAdminType = {
+    name: string;
+    link: string;
+};
+export declare const changeToAdminTemplate: (payload: setAdminType) => string;
 export {};
