@@ -1,5 +1,5 @@
 import path from "path";
-import express from "express";
+import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
@@ -47,6 +47,9 @@ process.on("uncaughtException", (err) => {
 
 // app routes
 // app.use("/api/v1/", userRoute);
+app.get("/", async (req: Request, res: Response) => {
+  return res.send("<h1>Welcome to HRMS API</h1>");
+});
 app.use("/api/v1/auth/", authRoute);
 app.use("/api/v1/candidate/", candidateRoute);
 app.use("/api/v1/job/", jobRoute);
