@@ -7,9 +7,11 @@ import {
   emailBodySchema,
   loginBodySchema,
   passwordResetSchema,
+  registerBodySchema,
 } from "../validators/auth.validators";
 import { sendEmail } from "../utils/emails/sendEmail2";
 import {
+  changeToAdminTemplate,
   resetPasswordTemplate,
   resetSuccessTemplate,
 } from "../utils/emails/emailTemplates";
@@ -20,6 +22,58 @@ export const testRoute = (req: Request, res: Response) => {
 };
 
 // login
+export const authRegister = tryCatch(async (req: Request, res: Response) => {
+  const { name, email, password } = registerBodySchema.parse(req.body);
+
+  // Check if user already exists
+  const existingUser = await UserModel.findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({ message: "User already exists" });
+  }
+
+  // Hash password
+  const passwordHash = await hashPassword(password);
+
+  // Create user
+  const user = await UserModel.create({
+    name,
+    email,
+    password: passwordHash,
+  });
+
+  const token = createJwt(
+    {
+      userId: user._id,
+    },
+    { expiresIn: 10 * 60 }
+  );
+
+  const link = `${process.env.SERVER_URL}/api/v1/auth/confirm/admin?token=${token}`;
+  const subject = "Change to Admin";
+  const html = changeToAdminTemplate({ name: user.name, link });
+
+  sendEmail({ email: user.email, subject, html });
+
+  res.status(201).json({ message: "User created successfully" });
+});
+
+export const confirmAdmin = tryCatch(async (req: Request, res: Response) => {
+  const token = String(req.query.token);
+
+  const decode = verifyJwt(token);
+
+  const user = await UserModel.findOneAndUpdate(
+    { _id: decode.userId },
+    {
+      $set: { role: "ADMIN", emailVerified: true },
+    }
+  );
+  return res.status(201).send(`<h2>Hi ${user.name},</h2>
+          <p>Your account change to admin is successful</p>
+          <p>Kindly click below to login</p>
+          <a href="${process.env.CLIENT_URL}/login" style="display: inline-block; background-color: #007bff; color: #fff; margin-bottom: 0.5rem; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Login</a>
+    `);
+});
 
 export const authLogin = tryCatch(async (req: Request, res: Response) => {
   const data = loginBodySchema.parse(req.body);

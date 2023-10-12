@@ -88,3 +88,24 @@ export const rejectionLetterTemplate = (payload: rejectPayloadType) => {
   `;
   return html;
 };
+
+type setAdminType = {
+  name: string;
+  link: string;
+};
+
+export const changeToAdminTemplate = (payload: setAdminType) => {
+  const html = `Dear ${payload.name},
+
+  <p>You have requested to set your account to admin. Please click the link below </p>
+        
+  <a href="${payload.link}" style="display: inline-block; background-color: #007bff; color: #fff; margin-bottom: 0.5rem; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Click here</a>
+  <br/>
+
+  <p>if the reset button does not work here is the direct link</>
+  <a href="${payload.link}">${payload.link}</a>
+  <p>If you did not request this, please ignore this email.</p>
+  
+  `;
+  return html;
+};
