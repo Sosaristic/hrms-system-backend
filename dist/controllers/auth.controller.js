@@ -50,7 +50,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.confirmPasswordReset = exports.forgetPassword = exports.getToken = exports.authLogin = exports.testRoute = void 0;
+exports.confirmPasswordReset = exports.forgetPassword = exports.getToken = exports.authLogin = exports.confirmAdmin = exports.authRegister = exports.testRoute = void 0;
 var users_model_1 = require("../models/users.model");
 var helpers_1 = require("../utils/helpers");
 var CustomError_1 = __importDefault(require("../utils/error/CustomError"));
@@ -64,6 +64,56 @@ var testRoute = function (req, res) {
 };
 exports.testRoute = testRoute;
 // login
+exports.authRegister = (0, tryCatch_1.tryCatch)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, name, email, password, existingUser, passwordHash, user, token, link, subject, html;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = auth_validators_1.registerBodySchema.parse(req.body), name = _a.name, email = _a.email, password = _a.password;
+                return [4 /*yield*/, users_model_1.UserModel.findOne({ email: email })];
+            case 1:
+                existingUser = _b.sent();
+                if (existingUser) {
+                    return [2 /*return*/, res.status(400).json({ message: "User already exists" })];
+                }
+                return [4 /*yield*/, (0, index_1.hashPassword)(password)];
+            case 2:
+                passwordHash = _b.sent();
+                return [4 /*yield*/, users_model_1.UserModel.create({
+                        name: name,
+                        email: email,
+                        password: passwordHash,
+                    })];
+            case 3:
+                user = _b.sent();
+                token = (0, helpers_1.createJwt)({
+                    userId: user._id,
+                }, { expiresIn: 10 * 60 });
+                link = "".concat(process.env.SERVER_URL, "/api/v1/auth/confirm/admin?token=").concat(token);
+                subject = "Change to Admin";
+                html = (0, emailTemplates_1.changeToAdminTemplate)({ name: user.name, link: link });
+                (0, sendEmail2_1.sendEmail)({ email: user.email, subject: subject, html: html });
+                res.status(201).json({ message: "User created successfully" });
+                return [2 /*return*/];
+        }
+    });
+}); });
+exports.confirmAdmin = (0, tryCatch_1.tryCatch)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var token, decode, user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                token = String(req.query.token);
+                decode = (0, helpers_1.verifyJwt)(token);
+                return [4 /*yield*/, users_model_1.UserModel.findOneAndUpdate({ _id: decode.userId }, {
+                        $set: { role: "ADMIN", emailVerified: true },
+                    })];
+            case 1:
+                user = _a.sent();
+                return [2 /*return*/, res.status(201).send("<h2>Hi ".concat(user.name, ",</h2>\n          <p>Your account change to admin is successful</p>\n          <p>Kindly click below to login</p>\n          <a href=\"").concat(process.env.CLIENT_URL, "/login\" style=\"display: inline-block; background-color: #007bff; color: #fff; margin-bottom: 0.5rem; padding: 10px 20px; text-decoration: none; border-radius: 5px;\">Login</a>\n    "))];
+        }
+    });
+}); });
 exports.authLogin = (0, tryCatch_1.tryCatch)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var data, email, password, user, isMatch, accessToken, refreshToken, userData;
     return __generator(this, function (_a) {
