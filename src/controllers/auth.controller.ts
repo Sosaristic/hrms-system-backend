@@ -47,7 +47,7 @@ export const authRegister = tryCatch(async (req: Request, res: Response) => {
     },
     { expiresIn: 10 * 60 }
   );
-
+  // link to confirm
   const link = `${process.env.SERVER_URL}/api/v1/auth/confirm/admin?token=${token}`;
   const subject = "Change to Admin";
   const html = changeToAdminTemplate({ name: user.name, link });
