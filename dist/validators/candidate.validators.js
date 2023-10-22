@@ -5,7 +5,7 @@ var zod_1 = require("zod");
 exports.addCandidateSchema = zod_1.z.object({
     name: zod_1.z.string({ required_error: "Candidate name is required" }),
     email: zod_1.z.string({ required_error: "Candidate email is required" }).email(),
-    jobTitle: zod_1.z.string({ required_error: "Job title name is required" }),
+    jobId: zod_1.z.string({ required_error: "Job title name is required" }),
     resume: zod_1.z.string({ required_error: "Resume is required" }),
     phoneNumber: zod_1.z.coerce.number().optional(),
 });

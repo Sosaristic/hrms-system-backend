@@ -2,19 +2,19 @@ import { z } from "zod";
 export declare const addCandidateSchema: z.ZodObject<{
     name: z.ZodString;
     email: z.ZodString;
-    jobTitle: z.ZodString;
+    jobId: z.ZodString;
     resume: z.ZodString;
     phoneNumber: z.ZodOptional<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     name?: string;
     email?: string;
-    jobTitle?: string;
+    jobId?: string;
     resume?: string;
     phoneNumber?: number;
 }, {
     name?: string;
     email?: string;
-    jobTitle?: string;
+    jobId?: string;
     resume?: string;
     phoneNumber?: number;
 }>;

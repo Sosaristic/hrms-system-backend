@@ -49,19 +49,19 @@ var emailTemplates_1 = require("../utils/emails/emailTemplates");
 var helpers_1 = require("../utils/helpers");
 var job_model_1 = require("../models/job.model");
 exports.addCandidate = (0, tryCatch_1.tryCatch)(function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var data, name, email, jobTitle, resume, phoneNumber, resumeFile, job, candidate;
+    var data, name, email, jobId, resume, phoneNumber, resumeFile, job, candidate;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 data = candidate_validators_1.addCandidateSchema.parse(req.body);
-                name = data.name, email = data.email, jobTitle = data.jobTitle, resume = data.resume, phoneNumber = data.phoneNumber;
+                name = data.name, email = data.email, jobId = data.jobId, resume = data.resume, phoneNumber = data.phoneNumber;
                 return [4 /*yield*/, (0, helpers_1.uploadToCloudinary)({
                         file: resume,
                         folder: "HRMS/Resume",
                     })];
             case 1:
                 resumeFile = _a.sent();
-                return [4 /*yield*/, job_model_1.JobModel.findOne({ title: jobTitle })];
+                return [4 /*yield*/, job_model_1.JobModel.findOne({ _id: jobId })];
             case 2:
                 job = _a.sent();
                 return [4 /*yield*/, candidate_model_1.CandidateModel.create({
