@@ -13,13 +13,13 @@ import { JobModel } from "../models/job.model";
 
 export const addCandidate = tryCatch(async (req: Request, res: Response) => {
   const data = addCandidateSchema.parse(req.body);
-  const { name, email, jobTitle, resume, phoneNumber } = data;
+  const { name, email, jobId, resume, phoneNumber } = data;
 
   const resumeFile = await uploadToCloudinary({
     file: resume,
     folder: "HRMS/Resume",
   });
-  const job = await JobModel.findOne({ title: jobTitle });
+  const job = await JobModel.findOne({ _id: jobId });
   const candidate = await CandidateModel.create({
     name,
     email,
