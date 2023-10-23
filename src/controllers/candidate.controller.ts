@@ -2,42 +2,45 @@ import { tryCatch } from "../utils/tryCatch";
 import { Request, Response } from "express";
 import { CandidateModel } from "../models/candidate.model";
 import CustomError from "../utils/error/CustomError";
-import { addCandidateSchema } from "../validators/candidate.validators";
 import { sendEmail } from "../utils/emails/sendEmail2";
 import {
   offerLetterTemplate,
   rejectionLetterTemplate,
 } from "../utils/emails/emailTemplates";
-import { uploadToCloudinary } from "../utils/helpers";
-import { JobModel } from "../models/job.model";
+import { addCandidateSchema } from "../validators/candidate.validators";
+import { FileValueSchema } from "../validators/file.validators";
 
 export const addCandidate = tryCatch(async (req: Request, res: Response) => {
-  const data = addCandidateSchema.parse(req.body);
-  const { name, email, jobId, resume, phoneNumber } = data;
+  console.log({ body: req.body });
 
-  const resumeFile = await uploadToCloudinary({
-    file: resume,
-    folder: "HRMS/Resume",
-  });
-  const job = await JobModel.findOne({ _id: jobId });
-  const candidate = await CandidateModel.create({
-    name,
-    email,
-    job,
-    resume: resumeFile.secure_url,
-    phoneNumber,
-  });
-  if (!candidate) {
-    throw new CustomError(
-      "Sorry, Error occur why registering this candidate",
-      400,
-    );
-  }
-  return res.status(201).json({
-    status: "success",
-    message: "Candidate registered successfully",
-    data: candidate,
-  });
+  const file = FileValueSchema.parse(req["file"]);
+  const data = addCandidateSchema.parse(req.body);
+  const { name, email, jobId, phoneNumber } = data;
+  console.log({ data, file });
+  return res.json({ message: "Hello world" });
+  // const resumeFile = await uploadToCloudinary({
+  //   file: file.path,
+  //   folder: "HRMS/Resume",
+  // });
+  // const job = await JobModel.findOne({ _id: jobId });
+  // const candidate = await CandidateModel.create({
+  //   name,
+  //   email,
+  //   job,
+  //   resume: resumeFile.secure_url,
+  //   phoneNumber,
+  // });
+  // if (!candidate) {
+  //   throw new CustomError(
+  //     "Sorry, Error occur why registering this candidate",
+  //     400
+  //   );
+  // }
+  // return res.status(201).json({
+  //   status: "success",
+  //   message: "Candidate registered successfully",
+  //   data: candidate,
+  // });
 });
 
 export const allCandidate = tryCatch(async (req: Request, res: Response) => {

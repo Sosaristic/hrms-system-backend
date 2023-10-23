@@ -13,7 +13,7 @@ const router = Router();
 router.post("/login", authLogin);
 router.post("/register", authRegister);
 router.get("/confirm/admin", confirmAdmin);
-router.post("/refresh/token", getToken);
+router.get("/refresh/token", getToken);
 router.post("/forget-password", forgetPassword);
 router.post("/reset-password/:token", confirmPasswordReset);
 
