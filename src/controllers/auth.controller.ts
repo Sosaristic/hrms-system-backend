@@ -120,7 +120,6 @@ export const authLogin = tryCatch(async (req: Request, res: Response) => {
     emailVerified: user.emailVerified,
     role: user.role,
     accessToken,
-    refreshToken,
   };
   user.refreshToken = refreshToken;
   await user.save();
@@ -144,7 +143,7 @@ export const getToken = tryCatch(async (req: Request, res: Response) => {
     },
     { expiresIn: 15 * 60 } //expire in 15 minute
   );
-  return res.status(200).json({ token: accessToken });
+  return res.status(200).json({ accessToken });
 });
 
 export const forgetPassword = tryCatch(async (req: Request, res: Response) => {

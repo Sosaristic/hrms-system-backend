@@ -56,6 +56,11 @@ var app = (0, express_1.default)();
 // IMPLEMENT MIDDLEWARE
 var corsOptions = {
     credentials: true,
+    origin: [
+        "http://localhost:3000",
+        "http://localhost:5000",
+        process.env.CLIENT_URL,
+    ],
 };
 (0, cloudinary_1.cloudinaryConfig)();
 app.use((0, cors_1.default)(corsOptions));
