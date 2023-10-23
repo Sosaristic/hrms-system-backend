@@ -47,7 +47,7 @@ export const createJwt = (user: JWTUSER, options: optionsType) => {
   const token = jwt.sign(
     { userId: user.userId, role: user.role },
     process.env.JWT_SECRET,
-    options,
+    options
   );
   return token;
 };
@@ -66,6 +66,7 @@ export const uploadToCloudinary = async ({ file, folder }) => {
   try {
     const data = await cloudinary.uploader.upload(file, {
       folder: folder,
+      resource_type: "raw",
     });
     return data;
   } catch (error) {

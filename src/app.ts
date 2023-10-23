@@ -33,17 +33,17 @@ const corsOptions: CorsOptions = {
 cloudinaryConfig();
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.json());
 app.use(
   compression({
     level: 6,
     threshold: 10 * 1000,
-  }),
+  })
 );
 app.use(cookieParser());
-app.use(bodyParser.json());
-
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "10mb" }));
 process.on("uncaughtException", (err) => {
   console.log(err.name, err.message);
   console.log("Uncaught Exception occured! Shutting down...");
@@ -66,7 +66,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.all("*", (req, res, next) => {
   const err = new CustomError(
     `Can't find ${req.originalUrl} on the server!`,
-    404,
+    404
   );
   next(err);
 });
