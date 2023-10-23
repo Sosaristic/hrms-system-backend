@@ -25,22 +25,59 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { UserType } from "../models/users.model";
 import { Request, Response } from "express";
-export declare const register: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
-export declare const login: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
-export declare const forgotPassword: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const register: (
+  req: Request,
+  res: Response,
+) => Promise<Response<any, Record<string, any>>>;
+export declare const login: (
+  req: Request,
+  res: Response,
+) => Promise<Response<any, Record<string, any>>>;
+export declare const forgotPassword: (
+  req: Request,
+  res: Response,
+) => Promise<Response<any, Record<string, any>>>;
 export declare const logout: (req: Request, res: Response) => Promise<void>;
-export declare const getUsers: () => import("mongoose").Query<(import("mongoose").Document<unknown, {}, UserType> & UserType & {
-    _id: import("mongoose").Types.ObjectId;
-})[], import("mongoose").Document<unknown, {}, UserType> & UserType & {
-    _id: import("mongoose").Types.ObjectId;
-}, {}, UserType, "find">;
-export declare const getUsersByEmail: (email: string) => import("mongoose").Query<import("mongoose").Document<unknown, {}, UserType> & UserType & {
-    _id: import("mongoose").Types.ObjectId;
-}, import("mongoose").Document<unknown, {}, UserType> & UserType & {
-    _id: import("mongoose").Types.ObjectId;
-}, {}, UserType, "findOne">;
-export declare const getUsersBySessionToken: (sessionToken: string) => import("mongoose").Query<import("mongoose").Document<unknown, {}, UserType> & UserType & {
-    _id: import("mongoose").Types.ObjectId;
-}, import("mongoose").Document<unknown, {}, UserType> & UserType & {
-    _id: import("mongoose").Types.ObjectId;
-}, {}, UserType, "findOne">;
+export declare const getUsers: () => import("mongoose").Query<
+  (import("mongoose").Document<unknown, {}, UserType> &
+    UserType & {
+      _id: import("mongoose").Types.ObjectId;
+    })[],
+  import("mongoose").Document<unknown, {}, UserType> &
+    UserType & {
+      _id: import("mongoose").Types.ObjectId;
+    },
+  {},
+  UserType,
+  "find"
+>;
+export declare const getUsersByEmail: (
+  email: string,
+) => import("mongoose").Query<
+  import("mongoose").Document<unknown, {}, UserType> &
+    UserType & {
+      _id: import("mongoose").Types.ObjectId;
+    },
+  import("mongoose").Document<unknown, {}, UserType> &
+    UserType & {
+      _id: import("mongoose").Types.ObjectId;
+    },
+  {},
+  UserType,
+  "findOne"
+>;
+export declare const getUsersBySessionToken: (
+  sessionToken: string,
+) => import("mongoose").Query<
+  import("mongoose").Document<unknown, {}, UserType> &
+    UserType & {
+      _id: import("mongoose").Types.ObjectId;
+    },
+  import("mongoose").Document<unknown, {}, UserType> &
+    UserType & {
+      _id: import("mongoose").Types.ObjectId;
+    },
+  {},
+  UserType,
+  "findOne"
+>;
