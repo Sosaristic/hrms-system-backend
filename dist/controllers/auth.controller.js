@@ -160,7 +160,6 @@ exports.authLogin = (0, tryCatch_1.tryCatch)(function (req, res) { return __awai
                     emailVerified: user.emailVerified,
                     role: user.role,
                     accessToken: accessToken,
-                    refreshToken: refreshToken,
                 };
                 user.refreshToken = refreshToken;
                 return [4 /*yield*/, user.save()];
@@ -191,7 +190,7 @@ exports.getToken = (0, tryCatch_1.tryCatch)(function (req, res) { return __await
                     role: user.role,
                 }, { expiresIn: 15 * 60 } //expire in 15 minute
                 );
-                return [2 /*return*/, res.status(200).json({ token: accessToken })];
+                return [2 /*return*/, res.status(200).json({ accessToken: accessToken })];
         }
     });
 }); });
