@@ -8,12 +8,12 @@ import {
   rejectionLetterTemplate,
 } from "../utils/emails/emailTemplates";
 import { addCandidateSchema } from "../validators/candidate.validators";
-import { FileSchema } from "../validators/file.validators";
+import { FileValueSchema } from "../validators/file.validators";
 
 export const addCandidate = tryCatch(async (req: Request, res: Response) => {
   console.log({ body: req.body });
 
-  const { file } = FileSchema.parse(req["file"]);
+  const file = FileValueSchema.parse(req["file"]);
   const data = addCandidateSchema.parse(req.body);
   const { name, email, jobId, phoneNumber } = data;
   console.log({ data, file });
@@ -70,7 +70,7 @@ export const acceptCandidate = tryCatch(async (req: Request, res: Response) => {
   const candidate = await CandidateModel.findOneAndUpdate(
     { _id: id },
     { $set: { candidateStatus: "SELECTED" } },
-    { new: true }
+    { new: true },
   )
     .populate("job")
     .exec();
@@ -100,7 +100,7 @@ export const rejectCandidate = tryCatch(async (req: Request, res: Response) => {
   const candidate = await CandidateModel.findOneAndUpdate(
     { _id: id },
     { $set: { candidateStatus: "REJECTED" } },
-    { new: true }
+    { new: true },
   ).exec();
   if (!candidate) {
     throw new CustomError("Candidate not found", 400);

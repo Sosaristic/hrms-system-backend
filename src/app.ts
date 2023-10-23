@@ -39,7 +39,7 @@ app.use(
   compression({
     level: 6,
     threshold: 10 * 1000,
-  })
+  }),
 );
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -67,7 +67,7 @@ app.use("/api/v1/employee/", employeeRoute);
 app.all("*", (req, res, next) => {
   const err = new CustomError(
     `Can't find ${req.originalUrl} on the server!`,
-    404
+    404,
   );
   next(err);
 });

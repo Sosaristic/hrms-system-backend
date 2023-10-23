@@ -47,7 +47,7 @@ export const createJwt = (user: JWTUSER, options: optionsType) => {
   const token = jwt.sign(
     { userId: user.userId, role: user.role },
     process.env.JWT_SECRET,
-    options
+    options,
   );
   return token;
 };
