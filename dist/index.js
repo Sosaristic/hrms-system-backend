@@ -140,7 +140,7 @@ var __importDefault =
 Object.defineProperty(exports, "__esModule", { value: true });
 var connect_1 = __importDefault(require("./db/connect"));
 var app_1 = __importDefault(require("./app"));
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 var main = function () {
   return __awaiter(void 0, void 0, void 0, function () {
     var isConnected, server, error_1;
