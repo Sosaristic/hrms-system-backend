@@ -11,11 +11,10 @@ const errorController = (
   error: ErrorType,
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   const validator = new ErrorValidator(res, error);
   next;
-  console.log({ error });
   if (error.name === "ZodError") {
     return validator.zodValidator();
   }

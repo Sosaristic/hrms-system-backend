@@ -13,7 +13,7 @@ export const addJob = tryCatch(async (req: Request, res: Response) => {
   if (!jobDepartment) {
     throw new CustomError(
       "Kindly provide a valid department for this job",
-      400,
+      400
     );
   }
   const job = await JobModel.create({
@@ -61,7 +61,7 @@ export const changeJobStatus = tryCatch(async (req: Request, res: Response) => {
   const job = await JobModel.findOneAndUpdate(
     { _id: id },
     { $set: { status: status } },
-    { new: true },
+    { new: true }
   ).exec();
   if (!job) {
     throw new CustomError("Sorry, Error Occur while updating job Status", 404);

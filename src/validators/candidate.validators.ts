@@ -4,7 +4,6 @@ export const addCandidateSchema = z.object({
   name: z.string({ required_error: "Candidate name is required" }),
   email: z.string({ required_error: "Candidate email is required" }).email(),
   jobId: z.string({ required_error: "Job Id is required" }),
-  resume: z.string({ required_error: "Resume is required" }),
   phoneNumber: z.coerce.number().optional(),
 });
 

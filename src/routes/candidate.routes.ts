@@ -9,9 +9,11 @@ import {
   rejectCandidate,
   singleCandidate,
 } from "../controllers/candidate.controller";
+import { upload } from "../middleware/upload.middleware";
 
 const router = Router();
 
+router.use(upload.single("resume"));
 router.post("/register", addCandidate);
 router.get("/:id", singleCandidate);
 router.use(protectAdmin);

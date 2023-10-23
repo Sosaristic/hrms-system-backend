@@ -70,6 +70,7 @@ export const uploadToCloudinary = async ({ file, folder }) => {
     });
     return data;
   } catch (error) {
+    console.log({ cloudyError: error });
     throw new CustomError("Invalid File Type", 400);
   }
 };
