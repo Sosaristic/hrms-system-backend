@@ -12,8 +12,6 @@ import {
 
 const router = Router();
 
-router.use(protectAdmin);
-
 router.post("/register", addCandidate);
 router.get("/:id", singleCandidate);
 router.use(protectAdmin);
