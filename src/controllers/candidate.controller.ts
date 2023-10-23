@@ -34,7 +34,7 @@ export const addCandidate = tryCatch(async (req: Request, res: Response) => {
   if (!candidate) {
     throw new CustomError(
       "Sorry, Error occur why registering this candidate",
-      400
+      400,
     );
   }
   return res.status(201).json({
@@ -71,7 +71,7 @@ export const acceptCandidate = tryCatch(async (req: Request, res: Response) => {
   const candidate = await CandidateModel.findOneAndUpdate(
     { _id: id },
     { $set: { candidateStatus: "SELECTED" } },
-    { new: true }
+    { new: true },
   )
     .populate("job")
     .exec();
@@ -101,7 +101,7 @@ export const rejectCandidate = tryCatch(async (req: Request, res: Response) => {
   const candidate = await CandidateModel.findOneAndUpdate(
     { _id: id },
     { $set: { candidateStatus: "REJECTED" } },
-    { new: true }
+    { new: true },
   ).exec();
   if (!candidate) {
     throw new CustomError("Candidate not found", 400);
