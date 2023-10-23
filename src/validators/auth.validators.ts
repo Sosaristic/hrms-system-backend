@@ -48,5 +48,5 @@ export const passwordResetSchema = z
     {
       message: "Passwords must match!",
       path: ["confirmPassword"],
-    }
+    },
   );

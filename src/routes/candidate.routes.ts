@@ -14,9 +14,10 @@ const router = Router();
 
 router.use(protectAdmin);
 
-router.get("/", allCandidate);
 router.post("/register", addCandidate);
 router.get("/:id", singleCandidate);
+router.use(protectAdmin);
+router.get("/", allCandidate);
 router.delete("/:id", deleteCandidate);
 router.post("/accept/:id", acceptCandidate);
 router.post("/reject/:id", rejectCandidate);

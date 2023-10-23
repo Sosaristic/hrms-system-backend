@@ -26,5 +26,5 @@ export const addEmployeeSchema = z
     {
       message: "Passwords must match!",
       path: ["confirmPassword"],
-    }
+    },
   );

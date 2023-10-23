@@ -13,7 +13,7 @@ import { hashPassword, uploadToCloudinary } from "../utils/helpers";
 export const registerEmployee = tryCatch(
   async (req: Request, res: Response) => {
     const { candidateId, gender, image, password } = addEmployeeSchema.parse(
-      req.body
+      req.body,
     );
     const candidate = await CandidateModel.findOne({
       _id: candidateId,
@@ -48,7 +48,7 @@ export const registerEmployee = tryCatch(
       status: "success",
       message: "Account Successfully Created",
     });
-  }
+  },
 );
 
 export const allEmployee = tryCatch(async (req: Request, res: Response) => {

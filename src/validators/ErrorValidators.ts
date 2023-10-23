@@ -6,7 +6,7 @@ type ErrorType = CustomError & ZodError;
 export class ErrorValidator {
   constructor(
     private res: Response,
-    private error: ErrorType
+    private error: ErrorType,
   ) {
     this.res = res;
     this.error = error;
