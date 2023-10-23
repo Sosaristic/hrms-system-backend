@@ -47,7 +47,7 @@ export const editDepartment = tryCatch(async (req: Request, res: Response) => {
   const department = await DepartmentModel.findOneAndUpdate(
     { _id: id },
     { $set: { name: name, departmentHead: employee || "" } },
-    { new: true }
+    { new: true },
   );
   if (!department) {
     throw new CustomError("Sorry, No data found", 404);
@@ -71,5 +71,5 @@ export const deleteDepartment = tryCatch(
       status: "success",
       message: "Department  successfully deleted",
     });
-  }
+  },
 );

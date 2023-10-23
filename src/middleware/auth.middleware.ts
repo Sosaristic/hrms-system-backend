@@ -4,7 +4,7 @@ import { verifyJwt } from "../utils/helpers";
 export const protectUser = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const bearer = req.headers.authorization;
   if (!bearer) {
@@ -32,7 +32,7 @@ export const protectUser = async (
 export const protectAdmin = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const bearer = req.headers.authorization;
   if (!bearer) {

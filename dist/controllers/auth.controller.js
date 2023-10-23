@@ -142,8 +142,7 @@ exports.authLogin = (0, tryCatch_1.tryCatch)(function (req, res) { return __awai
                 accessToken = (0, helpers_1.createJwt)({
                     userId: user._id,
                     role: user.role,
-                }, { expiresIn: 15 * 60 } //expire in 15 minute
-                );
+                }, { expiresIn: 15 * 60 });
                 refreshToken = (0, helpers_1.createJwt)({
                     userId: user._id,
                     role: user.role,
@@ -188,8 +187,7 @@ exports.getToken = (0, tryCatch_1.tryCatch)(function (req, res) { return __await
                 accessToken = (0, helpers_1.createJwt)({
                     userId: user._id,
                     role: user.role,
-                }, { expiresIn: 15 * 60 } //expire in 15 minute
-                );
+                }, { expiresIn: 15 * 60 });
                 return [2 /*return*/, res.status(200).json({ accessToken: accessToken })];
         }
     });

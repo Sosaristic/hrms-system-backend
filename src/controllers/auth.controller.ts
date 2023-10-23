@@ -45,7 +45,7 @@ export const authRegister = tryCatch(async (req: Request, res: Response) => {
     {
       userId: user._id,
     },
-    { expiresIn: 10 * 60 }
+    { expiresIn: 10 * 60 },
   );
   // link to confirm
   const link = `${process.env.SERVER_URL}/api/v1/auth/confirm/admin?token=${token}`;
@@ -66,7 +66,7 @@ export const confirmAdmin = tryCatch(async (req: Request, res: Response) => {
     { _id: decode.userId },
     {
       $set: { role: "ADMIN", emailVerified: true },
-    }
+    },
   );
   return res.status(201).send(`<h2>Hi ${user.name},</h2>
           <p>Your account change to admin is successful</p>
@@ -97,7 +97,7 @@ export const authLogin = tryCatch(async (req: Request, res: Response) => {
       userId: user._id,
       role: user.role,
     },
-    { expiresIn: 15 * 60 } //expire in 15 minute
+    { expiresIn: 15 * 60 }, //expire in 15 minute
   );
 
   const refreshToken = createJwt(
@@ -105,7 +105,7 @@ export const authLogin = tryCatch(async (req: Request, res: Response) => {
       userId: user._id,
       role: user.role,
     },
-    { expiresIn: 24 * 60 * 60 }
+    { expiresIn: 24 * 60 * 60 },
   ); //expire in 1day
 
   res.cookie("refresh", refreshToken, {
@@ -141,7 +141,7 @@ export const getToken = tryCatch(async (req: Request, res: Response) => {
       userId: user._id,
       role: user.role,
     },
-    { expiresIn: 15 * 60 } //expire in 15 minute
+    { expiresIn: 15 * 60 }, //expire in 15 minute
   );
   return res.status(200).json({ accessToken });
 });
@@ -159,7 +159,7 @@ export const forgetPassword = tryCatch(async (req: Request, res: Response) => {
     {
       userId: user._id,
     },
-    { expiresIn: 10 * 60 }
+    { expiresIn: 10 * 60 },
   );
 
   const link = `${process.env.CLIENT_URL}/reset-password/?token=${token}`;
@@ -199,5 +199,5 @@ export const confirmPasswordReset = tryCatch(
     return res
       .status(201)
       .json({ status: "success", message: "Password Successfully Reset" });
-  }
+  },
 );
