@@ -1,5 +1,6 @@
 import { z } from "zod";
-export declare const FileValueSchema: z.ZodObject<{
+export declare const FileValueSchema: z.ZodObject<
+  {
     fieldname: z.ZodString;
     originalname: z.ZodString;
     encoding: z.ZodString;
@@ -8,7 +9,10 @@ export declare const FileValueSchema: z.ZodObject<{
     filename: z.ZodString;
     path: z.ZodString;
     size: z.ZodNumber;
-}, "strip", z.ZodTypeAny, {
+  },
+  "strip",
+  z.ZodTypeAny,
+  {
     fieldname?: string;
     originalname?: string;
     encoding?: string;
@@ -17,7 +21,8 @@ export declare const FileValueSchema: z.ZodObject<{
     filename?: string;
     path?: string;
     size?: number;
-}, {
+  },
+  {
     fieldname?: string;
     originalname?: string;
     encoding?: string;
@@ -26,4 +31,5 @@ export declare const FileValueSchema: z.ZodObject<{
     filename?: string;
     path?: string;
     size?: number;
-}>;
+  }
+>;
