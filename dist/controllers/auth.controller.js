@@ -497,12 +497,10 @@ exports.confirmPasswordReset = (0, tryCatch_1.tryCatch)(function (req, res) {
           });
           return [
             2 /*return*/,
-            res
-              .status(201)
-              .json({
-                status: "success",
-                message: "Password Successfully Reset",
-              }),
+            res.status(201).json({
+              status: "success",
+              message: "Password Successfully Reset",
+            }),
           ];
       }
     });
