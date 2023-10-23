@@ -4,7 +4,6 @@ export declare const addCandidateSchema: z.ZodObject<
     name: z.ZodString;
     email: z.ZodString;
     jobId: z.ZodString;
-    resume: z.ZodString;
     phoneNumber: z.ZodOptional<z.ZodNumber>;
   },
   "strip",
@@ -13,14 +12,12 @@ export declare const addCandidateSchema: z.ZodObject<
     name?: string;
     email?: string;
     jobId?: string;
-    resume?: string;
     phoneNumber?: number;
   },
   {
     name?: string;
     email?: string;
     jobId?: string;
-    resume?: string;
     phoneNumber?: number;
   }
 >;

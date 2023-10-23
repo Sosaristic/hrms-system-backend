@@ -148,35 +148,29 @@ exports.deleteCandidate =
 var tryCatch_1 = require("../utils/tryCatch");
 var candidate_model_1 = require("../models/candidate.model");
 var CustomError_1 = __importDefault(require("../utils/error/CustomError"));
-var candidate_validators_1 = require("../validators/candidate.validators");
 var sendEmail2_1 = require("../utils/emails/sendEmail2");
 var emailTemplates_1 = require("../utils/emails/emailTemplates");
-var helpers_1 = require("../utils/helpers");
+var candidate_validators_1 = require("../validators/candidate.validators");
+var file_validators_1 = require("../validators/file.validators");
 var job_model_1 = require("../models/job.model");
+var helpers_1 = require("../utils/helpers");
 exports.addCandidate = (0, tryCatch_1.tryCatch)(function (req, res) {
   return __awaiter(void 0, void 0, void 0, function () {
-    var data,
-      name,
-      email,
-      jobId,
-      resume,
-      phoneNumber,
-      resumeFile,
-      job,
-      candidate;
+    var file, data, name, email, jobId, phoneNumber, resumeFile, job, candidate;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
+          console.log({ body: req.body });
+          file = file_validators_1.FileValueSchema.parse(req["file"]);
           data = candidate_validators_1.addCandidateSchema.parse(req.body);
           (name = data.name),
             (email = data.email),
             (jobId = data.jobId),
-            (resume = data.resume),
             (phoneNumber = data.phoneNumber);
           return [
             4 /*yield*/,
             (0, helpers_1.uploadToCloudinary)({
-              file: resume,
+              file: file.path,
               folder: "HRMS/Resume",
             }),
           ];

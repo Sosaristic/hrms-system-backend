@@ -176,6 +176,7 @@ app.use(
 );
 app.use((0, cookie_parser_1.default)());
 app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
 process.on("uncaughtException", function (err) {
   console.log(err.name, err.message);
   console.log("Uncaught Exception occured! Shutting down...");
@@ -183,6 +184,7 @@ process.on("uncaughtException", function (err) {
 });
 // app routes
 // app.use("/api/v1/", userRoute);
+app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.get("/", function (req, res) {
   return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
@@ -195,7 +197,6 @@ app.use("/api/v1/candidate/", routes_1.candidateRoute);
 app.use("/api/v1/job/", routes_1.jobRoute);
 app.use("/api/v1/department/", routes_1.departmentRoute);
 app.use("/api/v1/employee/", routes_1.employeeRoute);
-app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.all("*", function (req, res, next) {
   var err = new CustomError_1.default(
     "Can't find ".concat(req.originalUrl, " on the server!"),

@@ -4,7 +4,6 @@ var ErrorValidators_1 = require("../validators/ErrorValidators");
 var errorController = function (error, req, res, next) {
   var validator = new ErrorValidators_1.ErrorValidator(res, error);
   next;
-  console.log({ error: error });
   if (error.name === "ZodError") {
     return validator.zodValidator();
   }

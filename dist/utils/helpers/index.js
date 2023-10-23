@@ -234,6 +234,7 @@ var uploadToCloudinary = function (_a) {
             4 /*yield*/,
             cloudinary_1.v2.uploader.upload(file, {
               folder: folder,
+              resource_type: "raw",
             }),
           ];
         case 1:
@@ -241,6 +242,7 @@ var uploadToCloudinary = function (_a) {
           return [2 /*return*/, data];
         case 2:
           error_1 = _b.sent();
+          console.log({ cloudyError: error_1 });
           throw new CustomError_1.default("Invalid File Type", 400);
         case 3:
           return [2 /*return*/];
