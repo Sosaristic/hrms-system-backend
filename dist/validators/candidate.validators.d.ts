@@ -1,45 +1,33 @@
 import { z } from "zod";
-export declare const addCandidateSchema: z.ZodObject<
-  {
+export declare const addCandidateSchema: z.ZodObject<{
     name: z.ZodString;
     email: z.ZodString;
     jobId: z.ZodString;
     resume: z.ZodString;
     phoneNumber: z.ZodOptional<z.ZodNumber>;
-  },
-  "strip",
-  z.ZodTypeAny,
-  {
+}, "strip", z.ZodTypeAny, {
     name?: string;
     email?: string;
     jobId?: string;
     resume?: string;
     phoneNumber?: number;
-  },
-  {
+}, {
     name?: string;
     email?: string;
     jobId?: string;
     resume?: string;
     phoneNumber?: number;
-  }
->;
+}>;
 declare enum candidateStatus {
-  SELECTED = "SELECTED",
-  REJECTED = "REJECTED",
-  IN_PROGRESS = "IN PROGRESS",
+    SELECTED = "SELECTED",
+    REJECTED = "REJECTED",
+    IN_PROGRESS = "IN PROGRESS"
 }
-export declare const candidateAcceptSchema: z.ZodObject<
-  {
+export declare const candidateAcceptSchema: z.ZodObject<{
     candidateStatus: z.ZodNativeEnum<typeof candidateStatus>;
-  },
-  "strip",
-  z.ZodTypeAny,
-  {
+}, "strip", z.ZodTypeAny, {
     candidateStatus?: candidateStatus;
-  },
-  {
+}, {
     candidateStatus?: candidateStatus;
-  }
->;
+}>;
 export {};
